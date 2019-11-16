@@ -5,10 +5,7 @@ using System.Collections.Generic;
 using System.Globalization;
 using System.IO;
 using System.Linq;
-using System.Runtime.InteropServices;
-using System.Text;
 using System.Text.RegularExpressions;
-using System.Threading.Tasks;
 
 namespace UpDate
 {
@@ -83,7 +80,7 @@ namespace UpDate
             }
         }
 
-        public void FixDates(List<string> files, List<DateType> datesToChange, ImageNameConfig imageNameConfig = null)
+        public void FixDates(List<string> files, List<DateType> datesToChange, ImageNameConfig imageNameConfig = null, DateTime? hardCodedDate = null)
         {
             Console.Clear();
             //Zowel datum van file als name getten
@@ -93,7 +90,7 @@ namespace UpDate
             {
                 string file = files[k];
                 DateTime now = DateTime.Now;
-                DateTime nameDate = DateTime.Now;
+                DateTime nameDate = now;
                 try
                 {
                     //Get date from name
@@ -129,9 +126,14 @@ namespace UpDate
                     }
 
                     //Get date from file
-                    DateTime takenDate = DateTime.Now;
-                    DateTime createdDate = DateTime.Now;
-                    DateTime modifiedDate = DateTime.Now;
+                    DateTime takenDate = now;
+                    DateTime createdDate = now;
+                    DateTime modifiedDate = now;
+                    DateTime mediaCreatedDate = now;
+                    
+                    modifiedDate = File.GetLastWriteTime(file);
+                    createdDate = File.GetCreationTime(file);
+
                     var directories = ImageMetadataReader.ReadMetadata(file);
                     var subIfdDirectory = directories.OfType<ExifSubIfdDirectory>().FirstOrDefault();
                     if (subIfdDirectory != null)
@@ -144,14 +146,10 @@ namespace UpDate
                         {
                         }
                     }
-                    else {
-                        modifiedDate = File.GetLastWriteTime(file);
-                        createdDate = File.GetCreationTime(file);
-                    }
 
                     DateTime earliest = new List<DateTime> { nameDate, createdDate, takenDate, modifiedDate }.Min();
+                    if (hardCodedDate != null) earliest = hardCodedDate ?? earliest;
 
-                   
                     if (earliest.Ticks == now.Ticks)
                     {
                         Console.WriteLine($"{k}: {File.GetLastWriteTime(file)} -> BAD \t\t\t\t: {Path.GetFileName(file)}");

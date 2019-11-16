@@ -17,11 +17,14 @@ namespace UpDate
     {
         public UpDateService upDateService { get; set; }
         private ImageNameConfig imageNameConfig;
+        private bool clickedHardCodedDate = false;
 
         public MainForm()
         {
             upDateService = new UpDateService();
             InitializeComponent();
+            dateTimePicker1.CustomFormat = "dd/MM/yyyy HH:mm:ss";
+            dateTimePicker1.Format = DateTimePickerFormat.Custom;
         }
 
         private void folderSelectButton_Click(object sender, EventArgs e)
@@ -52,6 +55,7 @@ namespace UpDate
 
         private void openTitleDateButton_Click(object sender, EventArgs e)
         {
+            clickedHardCodedDate = false;
             var form = new TitleDateForm();
             form.OnSave += res => imageNameConfig = res;
             form.Show(this);
@@ -74,13 +78,20 @@ namespace UpDate
             }
 
             List<DateType> datesToChange = new List<DateType>();
-            for (int i = 0; i < datesToChangeList.SelectedItems.Count; i++)
-            {
-                string value = datesToChangeList.SelectedItems[i].ToString();
-                datesToChange.Add(value == "Date created" ? DateType.CREATED : value == "Date modified" ? DateType.MODIFIED : DateType.TAKEN);
-            }
-            
-            upDateService.FixDates(selectedFiles, datesToChange, imageNameConfig);
+            //for (int i = 0; i < datesToChangeList.SelectedItems.Count; i++)
+            //{
+            //    string value = datesToChangeList.SelectedItems[i].ToString();
+            //    datesToChange.Add(value == "Date created" ? DateType.CREATED : value == "Date modified" ? DateType.MODIFIED : DateType.TAKEN);
+            //}
+
+            DateTime? hardCodedDateTime = null;
+            if (clickedHardCodedDate) hardCodedDateTime = dateTimePicker1.Value;
+            upDateService.FixDates(selectedFiles, datesToChange, imageNameConfig, hardCodedDateTime);
+        }
+
+        private void dateTimePicker1_ValueChanged(object sender, EventArgs e)
+        {
+            clickedHardCodedDate = true;
         }
     }
 }

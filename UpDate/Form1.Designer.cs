@@ -47,6 +47,7 @@
             this.totalAmountLabel = new System.Windows.Forms.Label();
             this.selectedAmountLabel = new System.Windows.Forms.Label();
             this.manageDuplicatesTab = new System.Windows.Forms.TabPage();
+            this.dateTimePicker1 = new System.Windows.Forms.DateTimePicker();
             this.tabNav.SuspendLayout();
             this.changeDatesTab.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
@@ -120,6 +121,7 @@
             // 
             // groupBox2
             // 
+            this.groupBox2.Controls.Add(this.dateTimePicker1);
             this.groupBox2.Controls.Add(this.goButton);
             this.groupBox2.Controls.Add(this.openTitleDateButton);
             this.groupBox2.Controls.Add(this.label2);
@@ -261,6 +263,14 @@
             this.manageDuplicatesTab.Text = "Manage duplicates";
             this.manageDuplicatesTab.UseVisualStyleBackColor = true;
             // 
+            // dateTimePicker1
+            // 
+            this.dateTimePicker1.Location = new System.Drawing.Point(10, 29);
+            this.dateTimePicker1.Name = "dateTimePicker1";
+            this.dateTimePicker1.Size = new System.Drawing.Size(200, 20);
+            this.dateTimePicker1.TabIndex = 10;
+            this.dateTimePicker1.ValueChanged += new System.EventHandler(this.dateTimePicker1_ValueChanged);
+            // 
             // MainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -309,6 +319,7 @@
         private System.Windows.Forms.DataGridViewTextBoxColumn Date;
         private System.Windows.Forms.DataGridViewTextBoxColumn DisplayImageExtension;
         private System.Windows.Forms.DataGridViewTextBoxColumn DisplayImageSize;
+        private System.Windows.Forms.DateTimePicker dateTimePicker1;
     }
 }
 
