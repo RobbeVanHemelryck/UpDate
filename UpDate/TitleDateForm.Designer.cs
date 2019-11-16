@@ -36,13 +36,13 @@
             this.OldValue = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.NewValue = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.scenario1Conditions = new System.Windows.Forms.DataGridView();
-            this.Condition = new System.Windows.Forms.DataGridViewComboBoxColumn();
-            this.Value = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.CaseSensitive = new System.Windows.Forms.DataGridViewCheckBoxColumn();
             this.formats = new System.Windows.Forms.DataGridView();
             this.Format = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.label2 = new System.Windows.Forms.Label();
             this.label3 = new System.Windows.Forms.Label();
+            this.saveNameConfig = new System.Windows.Forms.Button();
+            this.Condition = new System.Windows.Forms.DataGridViewComboBoxColumn();
+            this.Value = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.groupBox1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.scenario1Actions)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.scenario1Conditions)).BeginInit();
@@ -105,12 +105,14 @@
             // 
             // OldValue
             // 
+            this.OldValue.DataPropertyName = "OldValue";
             this.OldValue.HeaderText = "Value to replace";
             this.OldValue.Name = "OldValue";
             this.OldValue.Width = 200;
             // 
             // NewValue
             // 
+            this.NewValue.DataPropertyName = "NewValue";
             this.NewValue.HeaderText = "New value";
             this.NewValue.Name = "NewValue";
             this.NewValue.Width = 200;
@@ -120,32 +122,11 @@
             this.scenario1Conditions.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.scenario1Conditions.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
             this.Condition,
-            this.Value,
-            this.CaseSensitive});
+            this.Value});
             this.scenario1Conditions.Location = new System.Drawing.Point(37, 49);
             this.scenario1Conditions.Name = "scenario1Conditions";
             this.scenario1Conditions.Size = new System.Drawing.Size(517, 105);
             this.scenario1Conditions.TabIndex = 0;
-            // 
-            // Condition
-            // 
-            this.Condition.HeaderText = "Expression";
-            this.Condition.Items.AddRange(new object[] {
-            "starts with",
-            "end with",
-            "contains"});
-            this.Condition.Name = "Condition";
-            // 
-            // Value
-            // 
-            this.Value.HeaderText = "Value";
-            this.Value.Name = "Value";
-            this.Value.Width = 200;
-            // 
-            // CaseSensitive
-            // 
-            this.CaseSensitive.HeaderText = "Case sensitive";
-            this.CaseSensitive.Name = "CaseSensitive";
             // 
             // formats
             // 
@@ -159,6 +140,7 @@
             // 
             // Format
             // 
+            this.Format.DataPropertyName = "Format";
             this.Format.HeaderText = "Format";
             this.Format.Name = "Format";
             this.Format.Width = 200;
@@ -183,11 +165,39 @@
             this.label3.TabIndex = 4;
             this.label3.Text = "How to extract date from filename";
             // 
+            // saveNameConfig
+            // 
+            this.saveNameConfig.Location = new System.Drawing.Point(385, 37);
+            this.saveNameConfig.Name = "saveNameConfig";
+            this.saveNameConfig.Size = new System.Drawing.Size(151, 137);
+            this.saveNameConfig.TabIndex = 5;
+            this.saveNameConfig.Text = "Save";
+            this.saveNameConfig.UseVisualStyleBackColor = true;
+            this.saveNameConfig.Click += new System.EventHandler(this.saveNameConfig_Click);
+            // 
+            // Condition
+            // 
+            this.Condition.DataPropertyName = "Expression";
+            this.Condition.HeaderText = "Expression";
+            this.Condition.Items.AddRange(new object[] {
+            "starts with",
+            "ends with",
+            "contains"});
+            this.Condition.Name = "Condition";
+            // 
+            // Value
+            // 
+            this.Value.DataPropertyName = "Value";
+            this.Value.HeaderText = "Value";
+            this.Value.Name = "Value";
+            this.Value.Width = 200;
+            // 
             // TitleDateForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(589, 707);
+            this.Controls.Add(this.saveNameConfig);
             this.Controls.Add(this.label3);
             this.Controls.Add(this.label2);
             this.Controls.Add(this.formats);
@@ -212,16 +222,16 @@
         private System.Windows.Forms.GroupBox groupBox1;
         private System.Windows.Forms.DataGridView formats;
         private System.Windows.Forms.DataGridView scenario1Conditions;
-        private System.Windows.Forms.DataGridViewTextBoxColumn Format;
         private System.Windows.Forms.Label label2;
         private System.Windows.Forms.Label label3;
         private System.Windows.Forms.Label label5;
         private System.Windows.Forms.Label label4;
         private System.Windows.Forms.DataGridView scenario1Actions;
+        private System.Windows.Forms.Button saveNameConfig;
+        private System.Windows.Forms.DataGridViewTextBoxColumn Format;
         private System.Windows.Forms.DataGridViewTextBoxColumn OldValue;
         private System.Windows.Forms.DataGridViewTextBoxColumn NewValue;
         private System.Windows.Forms.DataGridViewComboBoxColumn Condition;
         private System.Windows.Forms.DataGridViewTextBoxColumn Value;
-        private System.Windows.Forms.DataGridViewCheckBoxColumn CaseSensitive;
     }
 }

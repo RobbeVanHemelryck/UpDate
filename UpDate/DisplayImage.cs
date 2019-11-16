@@ -12,6 +12,7 @@ namespace UpDate
         public string Name { get; set; }
         public string Extension { get; set; }
         public long Size { get; set; }
+        public DateTime Date { get; set; }
         public FileInfo FileInfo { get; set; }
     }
 }

@@ -5,15 +5,19 @@ using System.ComponentModel;
 using System.Data;
 using System.Drawing;
 using System.Linq;
+using System.Runtime.InteropServices;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using static UpDate.UpDateService;
 
 namespace UpDate
 {
     public partial class MainForm : Form
     {
         public UpDateService upDateService { get; set; }
+        private ImageNameConfig imageNameConfig;
+
         public MainForm()
         {
             upDateService = new UpDateService();
@@ -26,6 +30,7 @@ namespace UpDate
             folderSelectTextBox.Text = dir;
 
             var files = upDateService.LoadFilesRecursively(dir);
+            files = files.OrderBy(x => x.Date).ToList();
             imagesDataGrid.DataSource = files;
             totalAmountLabel.Text = files.Count + " files";
             selectedAmountLabel.Text = "0 selected";
@@ -48,6 +53,7 @@ namespace UpDate
         private void openTitleDateButton_Click(object sender, EventArgs e)
         {
             var form = new TitleDateForm();
+            form.OnSave += res => imageNameConfig = res;
             form.Show(this);
         }
 
@@ -60,12 +66,21 @@ namespace UpDate
         private void goButton_Click(object sender, EventArgs e)
         {
             var selectedRows = imagesDataGrid.SelectedRows;
-            List<DisplayImage> selectedFiles = new List<DisplayImage>();
+            List<string> selectedFiles = new List<string>();
             foreach(DataGridViewRow row in selectedRows)
             {
-                selectedFiles.Add((DisplayImage)row.DataBoundItem);
+                DisplayImage img = (DisplayImage)row.DataBoundItem;
+                selectedFiles.Add(img.FileInfo.FullName);
+            }
+
+            List<DateType> datesToChange = new List<DateType>();
+            for (int i = 0; i < datesToChangeList.SelectedItems.Count; i++)
+            {
+                string value = datesToChangeList.SelectedItems[i].ToString();
+                datesToChange.Add(value == "Date created" ? DateType.CREATED : value == "Date modified" ? DateType.MODIFIED : DateType.TAKEN);
             }
             
+            upDateService.FixDates(selectedFiles, datesToChange, imageNameConfig);
         }
     }
 }

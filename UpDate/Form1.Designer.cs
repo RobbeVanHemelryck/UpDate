@@ -35,16 +35,13 @@
             this.splitContainer1 = new System.Windows.Forms.SplitContainer();
             this.groupBox2 = new System.Windows.Forms.GroupBox();
             this.goButton = new System.Windows.Forms.Button();
-            this.label3 = new System.Windows.Forms.Label();
             this.openTitleDateButton = new System.Windows.Forms.Button();
-            this.priorityDate = new System.Windows.Forms.ComboBox();
-            this.comboBox1 = new System.Windows.Forms.ComboBox();
             this.label2 = new System.Windows.Forms.Label();
-            this.label1 = new System.Windows.Forms.Label();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
             this.datesToChangeList = new System.Windows.Forms.CheckedListBox();
             this.imagesDataGrid = new System.Windows.Forms.DataGridView();
             this.DisplayImageName = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.Date = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.DisplayImageExtension = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.DisplayImageSize = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.totalAmountLabel = new System.Windows.Forms.Label();
@@ -68,7 +65,7 @@
             this.tabNav.Location = new System.Drawing.Point(13, 13);
             this.tabNav.Name = "tabNav";
             this.tabNav.SelectedIndex = 0;
-            this.tabNav.Size = new System.Drawing.Size(741, 425);
+            this.tabNav.Size = new System.Drawing.Size(1105, 522);
             this.tabNav.TabIndex = 2;
             // 
             // changeDatesTab
@@ -79,7 +76,7 @@
             this.changeDatesTab.Location = new System.Drawing.Point(4, 22);
             this.changeDatesTab.Name = "changeDatesTab";
             this.changeDatesTab.Padding = new System.Windows.Forms.Padding(3);
-            this.changeDatesTab.Size = new System.Drawing.Size(733, 399);
+            this.changeDatesTab.Size = new System.Drawing.Size(1097, 496);
             this.changeDatesTab.TabIndex = 0;
             this.changeDatesTab.Text = "Manage dates";
             this.changeDatesTab.UseVisualStyleBackColor = true;
@@ -117,22 +114,18 @@
             this.splitContainer1.Panel2.Controls.Add(this.imagesDataGrid);
             this.splitContainer1.Panel2.Controls.Add(this.totalAmountLabel);
             this.splitContainer1.Panel2.Controls.Add(this.selectedAmountLabel);
-            this.splitContainer1.Size = new System.Drawing.Size(719, 360);
-            this.splitContainer1.SplitterDistance = 194;
+            this.splitContainer1.Size = new System.Drawing.Size(1090, 463);
+            this.splitContainer1.SplitterDistance = 294;
             this.splitContainer1.TabIndex = 4;
             // 
             // groupBox2
             // 
             this.groupBox2.Controls.Add(this.goButton);
-            this.groupBox2.Controls.Add(this.label3);
             this.groupBox2.Controls.Add(this.openTitleDateButton);
-            this.groupBox2.Controls.Add(this.priorityDate);
-            this.groupBox2.Controls.Add(this.comboBox1);
             this.groupBox2.Controls.Add(this.label2);
-            this.groupBox2.Controls.Add(this.label1);
             this.groupBox2.Location = new System.Drawing.Point(14, 121);
             this.groupBox2.Name = "groupBox2";
-            this.groupBox2.Size = new System.Drawing.Size(170, 227);
+            this.groupBox2.Size = new System.Drawing.Size(277, 236);
             this.groupBox2.TabIndex = 1;
             this.groupBox2.TabStop = false;
             this.groupBox2.Text = "Date to use";
@@ -141,22 +134,13 @@
             // 
             this.goButton.BackColor = System.Drawing.Color.Transparent;
             this.goButton.FlatAppearance.BorderSize = 0;
-            this.goButton.Location = new System.Drawing.Point(10, 188);
+            this.goButton.Location = new System.Drawing.Point(10, 134);
             this.goButton.Name = "goButton";
             this.goButton.Size = new System.Drawing.Size(154, 23);
             this.goButton.TabIndex = 9;
             this.goButton.Text = "Go";
             this.goButton.UseVisualStyleBackColor = false;
             this.goButton.Click += new System.EventHandler(this.goButton_Click);
-            // 
-            // label3
-            // 
-            this.label3.AutoSize = true;
-            this.label3.Location = new System.Drawing.Point(7, 134);
-            this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(62, 13);
-            this.label3.TabIndex = 8;
-            this.label3.Text = "Priority date";
             // 
             // openTitleDateButton
             // 
@@ -168,29 +152,6 @@
             this.openTitleDateButton.UseVisualStyleBackColor = true;
             this.openTitleDateButton.Click += new System.EventHandler(this.openTitleDateButton_Click);
             // 
-            // priorityDate
-            // 
-            this.priorityDate.FormattingEnabled = true;
-            this.priorityDate.Items.AddRange(new object[] {
-            "Image date",
-            "Date from imagename"});
-            this.priorityDate.Location = new System.Drawing.Point(12, 150);
-            this.priorityDate.Name = "priorityDate";
-            this.priorityDate.Size = new System.Drawing.Size(152, 21);
-            this.priorityDate.TabIndex = 6;
-            // 
-            // comboBox1
-            // 
-            this.comboBox1.FormattingEnabled = true;
-            this.comboBox1.Items.AddRange(new object[] {
-            "Date modified",
-            "Date created",
-            "Date taken"});
-            this.comboBox1.Location = new System.Drawing.Point(12, 37);
-            this.comboBox1.Name = "comboBox1";
-            this.comboBox1.Size = new System.Drawing.Size(152, 21);
-            this.comboBox1.TabIndex = 6;
-            // 
             // label2
             // 
             this.label2.AutoSize = true;
@@ -199,15 +160,6 @@
             this.label2.Size = new System.Drawing.Size(110, 13);
             this.label2.TabIndex = 5;
             this.label2.Text = "Date from imagename";
-            // 
-            // label1
-            // 
-            this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(6, 20);
-            this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(60, 13);
-            this.label1.TabIndex = 4;
-            this.label1.Text = "Image date";
             // 
             // groupBox1
             // 
@@ -237,13 +189,14 @@
             this.imagesDataGrid.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.imagesDataGrid.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
             this.DisplayImageName,
+            this.Date,
             this.DisplayImageExtension,
             this.DisplayImageSize});
-            this.imagesDataGrid.Location = new System.Drawing.Point(7, 25);
+            this.imagesDataGrid.Location = new System.Drawing.Point(37, 25);
             this.imagesDataGrid.Name = "imagesDataGrid";
             this.imagesDataGrid.RowHeadersVisible = false;
             this.imagesDataGrid.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
-            this.imagesDataGrid.Size = new System.Drawing.Size(505, 332);
+            this.imagesDataGrid.Size = new System.Drawing.Size(715, 429);
             this.imagesDataGrid.TabIndex = 3;
             // 
             // DisplayImageName
@@ -253,6 +206,13 @@
             this.DisplayImageName.Name = "DisplayImageName";
             this.DisplayImageName.ReadOnly = true;
             this.DisplayImageName.Width = 300;
+            // 
+            // Date
+            // 
+            this.Date.DataPropertyName = "Date";
+            this.Date.HeaderText = "Date";
+            this.Date.Name = "Date";
+            this.Date.ReadOnly = true;
             // 
             // DisplayImageExtension
             // 
@@ -272,7 +232,7 @@
             // totalAmountLabel
             // 
             this.totalAmountLabel.AutoSize = true;
-            this.totalAmountLabel.Location = new System.Drawing.Point(4, 8);
+            this.totalAmountLabel.Location = new System.Drawing.Point(34, 8);
             this.totalAmountLabel.Name = "totalAmountLabel";
             this.totalAmountLabel.Size = new System.Drawing.Size(35, 13);
             this.totalAmountLabel.TabIndex = 2;
@@ -283,7 +243,7 @@
             // 
             this.selectedAmountLabel.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
             this.selectedAmountLabel.AutoSize = true;
-            this.selectedAmountLabel.Location = new System.Drawing.Point(470, 8);
+            this.selectedAmountLabel.Location = new System.Drawing.Point(717, 8);
             this.selectedAmountLabel.Name = "selectedAmountLabel";
             this.selectedAmountLabel.RightToLeft = System.Windows.Forms.RightToLeft.No;
             this.selectedAmountLabel.Size = new System.Drawing.Size(35, 13);
@@ -296,7 +256,7 @@
             this.manageDuplicatesTab.Location = new System.Drawing.Point(4, 22);
             this.manageDuplicatesTab.Name = "manageDuplicatesTab";
             this.manageDuplicatesTab.Padding = new System.Windows.Forms.Padding(3);
-            this.manageDuplicatesTab.Size = new System.Drawing.Size(733, 399);
+            this.manageDuplicatesTab.Size = new System.Drawing.Size(1097, 496);
             this.manageDuplicatesTab.TabIndex = 1;
             this.manageDuplicatesTab.Text = "Manage duplicates";
             this.manageDuplicatesTab.UseVisualStyleBackColor = true;
@@ -305,7 +265,7 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(766, 450);
+            this.ClientSize = new System.Drawing.Size(1119, 534);
             this.Controls.Add(this.tabNav);
             this.Name = "MainForm";
             this.Text = "RoobSoft";
@@ -334,14 +294,10 @@
         private System.Windows.Forms.SplitContainer splitContainer1;
         private System.Windows.Forms.GroupBox groupBox2;
         private System.Windows.Forms.Label label2;
-        private System.Windows.Forms.Label label1;
         private System.Windows.Forms.GroupBox groupBox1;
         private System.Windows.Forms.CheckedListBox datesToChangeList;
         private System.Windows.Forms.Button openTitleDateButton;
-        private System.Windows.Forms.ComboBox comboBox1;
         private System.Windows.Forms.Button goButton;
-        private System.Windows.Forms.Label label3;
-        private System.Windows.Forms.ComboBox priorityDate;
         private System.Windows.Forms.Label totalAmountLabel;
         private System.Windows.Forms.Label selectedAmountLabel;
         private System.Windows.Forms.DataGridViewCheckBoxColumn ImageSelected;
@@ -350,6 +306,7 @@
         private System.Windows.Forms.DataGridViewTextBoxColumn ImageSize;
         private System.Windows.Forms.DataGridView imagesDataGrid;
         private System.Windows.Forms.DataGridViewTextBoxColumn DisplayImageName;
+        private System.Windows.Forms.DataGridViewTextBoxColumn Date;
         private System.Windows.Forms.DataGridViewTextBoxColumn DisplayImageExtension;
         private System.Windows.Forms.DataGridViewTextBoxColumn DisplayImageSize;
     }

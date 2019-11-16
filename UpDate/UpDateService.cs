@@ -5,13 +5,18 @@ using System.Collections.Generic;
 using System.Globalization;
 using System.IO;
 using System.Linq;
+using System.Runtime.InteropServices;
 using System.Text;
+using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 
 namespace UpDate
 {
     public class UpDateService
     {
+
+        public enum DateType { CREATED, TAKEN, MODIFIED};
+
         public List<FileInfo> LoadFilesRecursively(DirectoryInfo source, ref List<FileInfo> files)
         {
             foreach (DirectoryInfo dir in source.GetDirectories())
@@ -30,6 +35,7 @@ namespace UpDate
                 Name = x.Name,
                 Extension = x.Extension,
                 Size = x.Length,
+                Date = x.LastWriteTime,
                 FileInfo = x
             }).ToList();
 
@@ -61,7 +67,7 @@ namespace UpDate
         //    }
         //}
 
-        public static void CopyFilesRecursively(DirectoryInfo source, string destination)
+        public void CopyFilesRecursively(DirectoryInfo source, string destination)
         {
             foreach (DirectoryInfo dir in source.GetDirectories())
                 CopyFilesRecursively(dir, destination);
@@ -77,104 +83,88 @@ namespace UpDate
             }
         }
 
-        public static void FixDates(string dir)
+        public void FixDates(List<string> files, List<DateType> datesToChange, ImageNameConfig imageNameConfig = null)
         {
-            var filenames = System.IO.Directory.GetFiles(dir);
-            foreach (string file in filenames)
+            Console.Clear();
+            //Zowel datum van file als name getten
+            //Naar priority date kijken voor welke ge moet pakken (de oudste)
+            //datesToChange alteren
+            for (int k = 0; k < files.Count; k++)
             {
+                string file = files[k];
+                DateTime now = DateTime.Now;
+                DateTime nameDate = DateTime.Now;
                 try
                 {
-                    string fileName = $"{file.Split('\\').Last()}";
-                    Console.WriteLine(fileName);
+                    //Get date from name
+                    if(imageNameConfig != null)
+                    {
+                        string[] formats = imageNameConfig.DateFormats.ToArray();
+                        for (int i = 0; i < imageNameConfig.Scenarios.Count; i++)
+                        {
+                            string fileName = Path.GetFileNameWithoutExtension(file);
 
-                    //Try to get takenAt date
-                    DateTime takenAt = new DateTime();
-                    bool takenAtSuccess = false;
+                            Scenario scenario = imageNameConfig.Scenarios[i];
+                            if(scenario.Conditions.Any(x => x.Compile()(fileName))){
+                                for (int j = 0; j < scenario.Actions.Count; j++)
+                                {
+                                    Action action = scenario.Actions[j];
+                                    fileName = Regex.Replace(
+                                        fileName,
+                                        Regex.Escape(action.OldValue),
+                                        action.NewValue.Replace("$", "$$"),
+                                        RegexOptions.IgnoreCase
+                                    );
+                                }
+                            }
+
+                            DateTime temp;
+                            bool titleSuccess = DateTime.TryParseExact(fileName, formats, DateTimeFormatInfo.InvariantInfo, DateTimeStyles.None, out temp);
+                            if (titleSuccess)
+                            {
+                                nameDate = temp;
+                                break;
+                            }
+                        }
+                    }
+
+                    //Get date from file
+                    DateTime takenDate = DateTime.Now;
+                    DateTime createdDate = DateTime.Now;
+                    DateTime modifiedDate = DateTime.Now;
                     var directories = ImageMetadataReader.ReadMetadata(file);
                     var subIfdDirectory = directories.OfType<ExifSubIfdDirectory>().FirstOrDefault();
                     if (subIfdDirectory != null)
                     {
                         try
                         {
-                            takenAt = subIfdDirectory.GetDateTime(ExifDirectoryBase.TagDateTimeOriginal);
-                            takenAtSuccess = true;
+                            DateTime temp = subIfdDirectory.GetDateTime(ExifDirectoryBase.TagDateTimeOriginal);
                         }
                         catch (Exception e)
                         {
                         }
                     }
-                    Console.WriteLine($"Original:");
-                    Console.WriteLine($"  - Created at: {File.GetCreationTime(file)}");
-                    Console.WriteLine($"  - Modified at: {File.GetLastWriteTime(file)}");
-                    if (takenAtSuccess) Console.WriteLine($"  - Taken at: {takenAt}");
-                    else Console.WriteLine($"  - Taken at: unknown");
-
-
-                    //Check name for date
-                    fileName = fileName.Substring(0, fileName.LastIndexOf('.'));
-                    if (fileName.StartsWith("Screenshot"))
-                    {
-                        fileName = fileName.Split('_')[1];
-                    }
-                    else if (fileName.Contains(' '))
-                    {
-                        fileName = fileName.Substring(0, fileName.LastIndexOf(' '));
-                    }
-                    else if (fileName.StartsWith("IMG_"))
-                    {
-                        fileName = fileName.Substring(4);
-                    }
-                    else if (fileName.EndsWith("_x264"))
-                    {
-                        fileName = fileName.Replace("_x264", "");
+                    else {
+                        modifiedDate = File.GetLastWriteTime(file);
+                        createdDate = File.GetCreationTime(file);
                     }
 
-                    string[] formats = { "yyyyMMdd_HHmm", "yyyyMMdd_HHmmss", "yy-MM-dd HH-mm-ss", "yyyyMMdd-HHmmss" };
+                    DateTime earliest = new List<DateTime> { nameDate, createdDate, takenDate, modifiedDate }.Min();
 
-                    DateTime titleDate = new DateTime();
-
-                    bool titleSuccess = DateTime.TryParseExact(fileName, formats, DateTimeFormatInfo.InvariantInfo, DateTimeStyles.None, out titleDate);
-
-                    //First use title - always the most accurate
-                    if (titleSuccess)
+                   
+                    if (earliest.Ticks == now.Ticks)
                     {
-                        File.SetLastWriteTime(file, titleDate);
-                        File.SetCreationTime(file, titleDate);
-                        Console.WriteLine($"  - Date used (title): {titleDate}");
+                        Console.WriteLine($"{k}: {File.GetLastWriteTime(file)} -> BAD \t\t\t\t: {Path.GetFileName(file)}");
+                        continue;
                     }
-
-                    //If available - use takenAt (also always accurate)
-                    else if (takenAtSuccess)
-                    {
-                        File.SetLastWriteTime(file, takenAt);
-                        File.SetCreationTime(file, takenAt);
-                        Console.WriteLine($"  - Date used (takenAt): {takenAt}");
-                    }
-
-                    //Use the oldest date between modified and created
-                    else
-                    {
-                        DateTime modified = File.GetLastWriteTime(file);
-                        DateTime created = File.GetCreationTime(file);
-
-                        DateTime oldest = new DateTime();
-                        if (modified < created) oldest = modified;
-                        else oldest = created;
-
-                        //oldest = new DateTime(2015, 4, 16, 14, 22, 0);
-
-                        File.SetLastWriteTime(file, oldest);
-                        File.SetCreationTime(file, oldest);
-
-
-                        Console.WriteLine($"  - Date used (oldest): {oldest}");
-                    }
+                    Console.WriteLine($"{k}: {File.GetLastWriteTime(file)} -> {earliest}: \t\t{Path.GetFileName(file)}");
+                    File.SetLastWriteTime(file, earliest);
+                    File.SetCreationTime(file, earliest);
                 }
                 catch (Exception e)
                 {
-                    Console.WriteLine(e.Message);
+                    Console.WriteLine($"{k}: {File.GetLastWriteTime(file)} -> ERROR: \t\t{Path.GetFileName(file)}");
                 }
-                Console.WriteLine();
             }
         }
     }
