@@ -134,17 +134,17 @@ namespace UpDate
                     modifiedDate = File.GetLastWriteTime(file);
                     createdDate = File.GetCreationTime(file);
 
-                    var directories = ImageMetadataReader.ReadMetadata(file);
-                    var subIfdDirectory = directories.OfType<ExifSubIfdDirectory>().FirstOrDefault();
-                    if (subIfdDirectory != null)
+                    try
                     {
-                        try
+                        var directories = ImageMetadataReader.ReadMetadata(file);
+                        var subIfdDirectory = directories.OfType<ExifSubIfdDirectory>().FirstOrDefault();
+                        if (subIfdDirectory != null)
                         {
-                            DateTime temp = subIfdDirectory.GetDateTime(ExifDirectoryBase.TagDateTimeOriginal);
+                            takenDate = subIfdDirectory.GetDateTime(ExifDirectoryBase.TagDateTimeOriginal);
                         }
-                        catch (Exception e)
-                        {
-                        }
+                    }
+                    catch (Exception e)
+                    {
                     }
 
                     DateTime earliest = new List<DateTime> { nameDate, createdDate, takenDate, modifiedDate }.Min();

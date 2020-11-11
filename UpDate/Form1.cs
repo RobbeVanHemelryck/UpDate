@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
 using System.Drawing;
+using System.Globalization;
 using System.Linq;
 using System.Runtime.InteropServices;
 using System.Text;
@@ -18,13 +19,12 @@ namespace UpDate
         public UpDateService upDateService { get; set; }
         private ImageNameConfig imageNameConfig;
         private bool clickedHardCodedDate = false;
+        private string mostRecentFolder = Environment.GetFolderPath(Environment.SpecialFolder.MyPictures);
 
         public MainForm()
         {
             upDateService = new UpDateService();
             InitializeComponent();
-            dateTimePicker1.CustomFormat = "dd/MM/yyyy HH:mm:ss";
-            dateTimePicker1.Format = DateTimePickerFormat.Custom;
         }
 
         private void folderSelectButton_Click(object sender, EventArgs e)
@@ -44,10 +44,11 @@ namespace UpDate
         private string showFolderDialog()
         {
             CommonOpenFileDialog dialog = new CommonOpenFileDialog();
-            dialog.InitialDirectory = Environment.GetFolderPath(Environment.SpecialFolder.MyPictures);
+            dialog.InitialDirectory = mostRecentFolder;
             dialog.IsFolderPicker = true;
             if (dialog.ShowDialog() == CommonFileDialogResult.Ok)
             {
+                mostRecentFolder = dialog.FileName;
                 return dialog.FileName;
             }
             return "";
@@ -84,14 +85,10 @@ namespace UpDate
             //    datesToChange.Add(value == "Date created" ? DateType.CREATED : value == "Date modified" ? DateType.MODIFIED : DateType.TAKEN);
             //}
 
-            DateTime? hardCodedDateTime = null;
-            if (clickedHardCodedDate) hardCodedDateTime = dateTimePicker1.Value;
+            DateTime hardCodedDateTime;
+            string dateTimeInput = maskedTextBox1.Text;
+            DateTime.TryParseExact(dateTimeInput, "dd/MM/yyyy H:mm", CultureInfo.CurrentCulture, DateTimeStyles.None, out hardCodedDateTime);
             upDateService.FixDates(selectedFiles, datesToChange, imageNameConfig, hardCodedDateTime);
-        }
-
-        private void dateTimePicker1_ValueChanged(object sender, EventArgs e)
-        {
-            clickedHardCodedDate = true;
         }
     }
 }

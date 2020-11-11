@@ -47,7 +47,7 @@
             this.totalAmountLabel = new System.Windows.Forms.Label();
             this.selectedAmountLabel = new System.Windows.Forms.Label();
             this.manageDuplicatesTab = new System.Windows.Forms.TabPage();
-            this.dateTimePicker1 = new System.Windows.Forms.DateTimePicker();
+            this.maskedTextBox1 = new System.Windows.Forms.MaskedTextBox();
             this.tabNav.SuspendLayout();
             this.changeDatesTab.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
@@ -87,12 +87,12 @@
             this.folderSelectTextBox.Location = new System.Drawing.Point(6, 6);
             this.folderSelectTextBox.Name = "folderSelectTextBox";
             this.folderSelectTextBox.ReadOnly = true;
-            this.folderSelectTextBox.Size = new System.Drawing.Size(386, 20);
+            this.folderSelectTextBox.Size = new System.Drawing.Size(708, 20);
             this.folderSelectTextBox.TabIndex = 1;
             // 
             // folderSelectButton
             // 
-            this.folderSelectButton.Location = new System.Drawing.Point(398, 6);
+            this.folderSelectButton.Location = new System.Drawing.Point(720, 4);
             this.folderSelectButton.Name = "folderSelectButton";
             this.folderSelectButton.Size = new System.Drawing.Size(75, 23);
             this.folderSelectButton.TabIndex = 0;
@@ -121,7 +121,7 @@
             // 
             // groupBox2
             // 
-            this.groupBox2.Controls.Add(this.dateTimePicker1);
+            this.groupBox2.Controls.Add(this.maskedTextBox1);
             this.groupBox2.Controls.Add(this.goButton);
             this.groupBox2.Controls.Add(this.openTitleDateButton);
             this.groupBox2.Controls.Add(this.label2);
@@ -263,13 +263,13 @@
             this.manageDuplicatesTab.Text = "Manage duplicates";
             this.manageDuplicatesTab.UseVisualStyleBackColor = true;
             // 
-            // dateTimePicker1
+            // maskedTextBox1
             // 
-            this.dateTimePicker1.Location = new System.Drawing.Point(10, 29);
-            this.dateTimePicker1.Name = "dateTimePicker1";
-            this.dateTimePicker1.Size = new System.Drawing.Size(200, 20);
-            this.dateTimePicker1.TabIndex = 10;
-            this.dateTimePicker1.ValueChanged += new System.EventHandler(this.dateTimePicker1_ValueChanged);
+            this.maskedTextBox1.Location = new System.Drawing.Point(10, 29);
+            this.maskedTextBox1.Mask = "00/00/0000 00:00";
+            this.maskedTextBox1.Name = "maskedTextBox1";
+            this.maskedTextBox1.Size = new System.Drawing.Size(236, 20);
+            this.maskedTextBox1.TabIndex = 11;
             // 
             // MainForm
             // 
@@ -319,7 +319,7 @@
         private System.Windows.Forms.DataGridViewTextBoxColumn Date;
         private System.Windows.Forms.DataGridViewTextBoxColumn DisplayImageExtension;
         private System.Windows.Forms.DataGridViewTextBoxColumn DisplayImageSize;
-        private System.Windows.Forms.DateTimePicker dateTimePicker1;
+        private System.Windows.Forms.MaskedTextBox maskedTextBox1;
     }
 }
 
