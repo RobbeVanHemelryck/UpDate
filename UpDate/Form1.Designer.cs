@@ -34,6 +34,7 @@
             this.folderSelectButton = new System.Windows.Forms.Button();
             this.splitContainer1 = new System.Windows.Forms.SplitContainer();
             this.groupBox2 = new System.Windows.Forms.GroupBox();
+            this.maskedTextBox1 = new System.Windows.Forms.MaskedTextBox();
             this.goButton = new System.Windows.Forms.Button();
             this.openTitleDateButton = new System.Windows.Forms.Button();
             this.label2 = new System.Windows.Forms.Label();
@@ -47,7 +48,6 @@
             this.totalAmountLabel = new System.Windows.Forms.Label();
             this.selectedAmountLabel = new System.Windows.Forms.Label();
             this.manageDuplicatesTab = new System.Windows.Forms.TabPage();
-            this.maskedTextBox1 = new System.Windows.Forms.MaskedTextBox();
             this.tabNav.SuspendLayout();
             this.changeDatesTab.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
@@ -131,6 +131,14 @@
             this.groupBox2.TabIndex = 1;
             this.groupBox2.TabStop = false;
             this.groupBox2.Text = "Date to use";
+            // 
+            // maskedTextBox1
+            // 
+            this.maskedTextBox1.Location = new System.Drawing.Point(10, 29);
+            this.maskedTextBox1.Mask = "0000-00-00 00:00";
+            this.maskedTextBox1.Name = "maskedTextBox1";
+            this.maskedTextBox1.Size = new System.Drawing.Size(236, 20);
+            this.maskedTextBox1.TabIndex = 11;
             // 
             // goButton
             // 
@@ -262,14 +270,6 @@
             this.manageDuplicatesTab.TabIndex = 1;
             this.manageDuplicatesTab.Text = "Manage duplicates";
             this.manageDuplicatesTab.UseVisualStyleBackColor = true;
-            // 
-            // maskedTextBox1
-            // 
-            this.maskedTextBox1.Location = new System.Drawing.Point(10, 29);
-            this.maskedTextBox1.Mask = "00/00/0000 00:00";
-            this.maskedTextBox1.Name = "maskedTextBox1";
-            this.maskedTextBox1.Size = new System.Drawing.Size(236, 20);
-            this.maskedTextBox1.TabIndex = 11;
             // 
             // MainForm
             // 
